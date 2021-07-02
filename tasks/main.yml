@@ -1,0 +1,22 @@
+---
+# tasks file for ipaserver
+
+- name: Import variables specific to distribution
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "vars/{{ ansible_facts['distribution'] }}-{{ ansible_facts['distribution_version'] }}.yml"
+    - "vars/{{ ansible_facts['distribution'] }}-{{ ansible_facts['distribution_major_version'] }}.yml"
+    - "vars/{{ ansible_facts['distribution'] }}.yml"
+    - "vars/default.yml"
+
+- name: Install IPA server
+  include_tasks: install.yml
+  when: state == 'present'
+
+- name: Run IPA server in docker container
+  include_tasks: run_in_container.yml
+  when: state == 'docker'
+
+# - name: Uninstall IPA server
+#   include_tasks: uninstall.yml
+#   when: state == 'absent'

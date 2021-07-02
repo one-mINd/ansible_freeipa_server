@@ -1,0 +1,47 @@
+---
+- name: Create ipa-data dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ ipaserver_data_dir }}"
+    state: directory
+
+- name: Set FreeIPA install options 
+  become: yes
+  become_user: root
+  template:
+    src: docker-ipa-server-install-options.j2
+    dest: "{{ ipaserver_data_dir }}/ipa-server-install-options"
+
+- name: Start FreeIPA-server in docker container
+  become: yes
+  become_user: root
+  docker_compose:
+    project_name: FreeIPA_server_container
+    definition:
+      version: '2'
+      services:
+        FreeIPA_server:
+          image: "{{ ipaserver_image }}"
+          container_name: "{{ ipaserver_container_name }}"
+          ports:
+            - "443:443"
+            - "389:389"
+            - "636:636"
+            - "80:80"
+            - "80:80/udp"
+            - "88:88"
+            - "88:88/udp"
+            - "464:464"
+            - "464:464/udp"
+          volumes:
+            - "{{ ipaserver_data_dir }}:/data"
+            - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+          hostname: "{{ ipaserver_hostname }}"
+          restart: always
+          sysctls:
+            - net.ipv6.conf.all.disable_ipv6=0
+      networks:
+        default:
+          external:
+            name: "{{ ipaserver_network_name }}"
