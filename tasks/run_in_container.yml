@@ -24,16 +24,7 @@
         FreeIPA_server:
           image: "{{ ipaserver_image }}"
           container_name: "{{ ipaserver_container_name }}"
-          ports:
-            - "443:443"
-            - "389:389"
-            - "636:636"
-            - "80:80"
-            - "80:80/udp"
-            - "88:88"
-            - "88:88/udp"
-            - "464:464"
-            - "464:464/udp"
+          ports: "{{ ipaserver_container_exposed_ports }}"
           volumes:
             - "{{ ipaserver_data_dir }}:/data"
             - "/sys/fs/cgroup:/sys/fs/cgroup:ro"

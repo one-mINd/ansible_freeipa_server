@@ -1,8 +1,9 @@
 ---
 # defaults file for ipaserver
 
+### main ###
 ipaserver_hostname: master.freeipa.local
-ipaserver_realm: EXAMPLE.COM
+ipaserver_realm: LOCALFREEIPA.COM
 ipaserver_data_dir: /var/lib/ipa-data
 ipadm_password: passwd12345
 ipaadmin_password: passwd12345
@@ -54,3 +55,15 @@ ipaserver_ignore_last_of_role: no
 ipaserver_image: freeipa/freeipa-server:centos-8
 ipaserver_container_name: free-ipa-server-container
 ipaserver_network_name: freeipa-net
+ipaserver_container_exposed_ports: 
+  - "443:443"
+  - "389:389"
+  - "636:636"
+  - "80:80"
+  - "88:88"
+  - "88:88/udp"
+  - "464:464"
+  - "464:464/udp"
+
+### Add users ###
+# ipaserver_users: empty 

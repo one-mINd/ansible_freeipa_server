@@ -1,0 +1,13 @@
+---
+- name: Add Users
+  community.general.ipa_user:
+    ipa_host: "{{ ipaserver_hostname }}"
+    ipa_user: admin
+    ipa_pass: "{{ ipaadmin_password }}"
+    name: "{{ item.name }}"
+    givenname: "{{ item.first_name }}"
+    sn: "{{ item.surname }}"
+    password: "{{ item.password }}"
+    update_password: on_create
+  when: ipaserver_users is defined
+  with_items: "{{ ipaserver_users }}"
