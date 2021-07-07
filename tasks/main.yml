@@ -17,10 +17,10 @@
   include_tasks: run_in_container.yml
   when: state == 'docker'
 
-# - name: Uninstall IPA server
-#   include_tasks: uninstall.yml
-#   when: state == 'absent'
+- name: Uninstall IPA server
+  include_tasks: uninstall.yml
+  when: state == 'absent'
 
 - name: Add users
   include_tasks: add_users.yml
-  # when: ipaserver_users is defined
+  when: ipaserver_users is defined

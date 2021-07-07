@@ -1,0 +1,29 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+# lint: |
+#   set -e
+#   yamllint .
+#   ansible-lint
+platforms:
+  - name: instance
+    image: "geerlingguy/docker-centos8-ansible:latest"
+    command: /sbin/init
+    hostname: master.freeipa.local
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    privileged: true
+    pre_build_image: true
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 0
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
+  inventory:
+    group_vars:
+      all:
+        ansible_python_interpreter: /usr/bin/python3

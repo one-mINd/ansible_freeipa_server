@@ -1,0 +1,21 @@
+---
+language: python
+services: docker
+
+env:
+  global:
+    - ANSIBLE_VERBOSITY: 2
+    - ROLE_NAME: cadvisor
+  matrix:
+    - MOLECULE_DISTRO: ubuntu2004
+
+install:
+  # Install test dependencies.
+  - pip install molecule[docker] yamllint ansible-lint docker docker-compose ansible==2.10
+
+script:
+  # Run tests.
+  - molecule test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/?branch=master
