@@ -8,7 +8,6 @@ ipaserver_data_dir: /var/lib/ipa-data
 ipadm_password: passwd12345
 ipaadmin_password: passwd12345
 ipaserver_domain: master.freeipa.local
-ipaserver_disable_ipv6: yes
 
 ### basic ###
 ipaserver_no_host_dns: no
