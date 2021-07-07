@@ -11,6 +11,7 @@ env:
 install:
   # Install test dependencies.
   - pip install molecule[docker] yamllint ansible-lint docker docker-compose ansible==2.10
+  - ansible-galaxy collection install freeipa.ansible_freeipa
 
 script:
   # Run tests.
